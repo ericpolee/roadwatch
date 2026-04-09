@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>RoadWatch | Eric Lee</title>
+
+  <!-- Shared styles — gives you navigation arrows and CAC CSS variables -->
+  <link rel="stylesheet" href="../../assets/css/shared.css">
+
+  <!-- Google Fonts - Space Grotesk to match RoadWatch branding -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /*
+     * RoadWatch Neo-Brutalist Design System
+     * Colors: Bright Orange (#E67A00), Yellow (#D4B000), Pure Black, Pure White
+     */
+
+    :root {
+      --rw-orange: #E67A00;
+      --rw-yellow: #D4B000;
+      --rw-black: #1a1a1a;
+      --rw-white: #ffffff;
+      --rw-gray: #f5f5f5;
+      --rw-muted: #666666;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+      color: var(--rw-black);
+      background: var(--rw-white);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* Neo-brutalist shadow utilities */
+    .shadow-brutal {
+      box-shadow: 6px 6px 0 var(--rw-black);
+    }
+
+    .shadow-brutal-lg {
+      box-shadow: 10px 10px 0 var(--rw-black);
+    }
+
+    .shadow-brutal-orange {
+      box-shadow: 6px 6px 0 var(--rw-orange);
+    }
+
+    /* Header with gradient background like hero */
+    .hero-header {
+      background: linear-gradient(135deg, var(--rw-orange) 0%, var(--rw-yellow) 50%, var(--rw-orange) 100%);
+      padding: 4rem 2rem 6rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: 
+        repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(0,0,0,.1) 35px, rgba(0,0,0,.1) 70px),
+        repeating-linear-gradient(-45deg, transparent, transparent 35px, rgba(0,0,0,.05) 35px, rgba(0,0,0,.05) 70px);
+      opacity: 0.3;
+    }
+
+    .hero-header::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.4), transparent);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 10;
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    /* Logo and title */
+    .logo-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .logo-icon {
+      width: 64px;
+      height: 64px;
+      background: var(--rw-white);
+      border: 4px solid var(--rw-black);
+      box-shadow: 6px 6px 0 var(--rw-black);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-icon svg {
+      width: 40px;
+      height: 40px;
+      stroke: var(--rw-black);
+      fill: none;
+      stroke-width: 2;
+    }
+
+    .hero-header h1 {
+      font-size: 3.5rem;
+      font-weight: 700;
+      color: var(--rw-black);
+      margin: 0;
+      letter-spacing: -0.02em;
+    }
+
+    .hero-tagline {
+      font-size: 1.25rem;
+      color: var(--rw-black);
+      opacity: 0.9;
+      margin-top: 0.5rem;
+    }
+
+    /* Road-style banner */
+    .road-banner {
+      background: var(--rw-black);
+      border: 4px solid var(--rw-black);
+      padding: 1.5rem 2rem;
+      margin-top: 2rem;
+      position: relative;
+    }
+
+    .road-banner::before,
+    .road-banner::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 6px;
+      background: var(--rw-yellow);
+    }
+
+    .road-banner::before { left: -10px; }
+    .road-banner::after { right: -10px; }
+
+    .road-banner p {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--rw-white);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 3px dashed rgba(255,255,255,0.3);
+      padding-bottom: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .road-banner p:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+      margin-bottom: 0;
+    }
+
+    /* Container */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+    }
+
+    /* Sections with neo-brutalist cards */
+    section {
+      background: var(--rw-white);
+      border: 4px solid var(--rw-black);
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 10px 10px 0 var(--rw-black);
+    }
+
+    section h2 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    section h2::before {
+      content: '';
+      display: inline-block;
+      width: 8px;
+      height: 100%;
+      min-height: 1.75rem;
+      background: var(--rw-orange);
+    }
+
+    section p {
+      line-height: 1.8;
+      margin-bottom: 1rem;
+      color: var(--rw-black);
+    }
+
+    section p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* App screenshot gallery */
+    .screenshot-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .screenshot {
+      border: 4px solid var(--rw-black);
+      box-shadow: 6px 6px 0 var(--rw-black);
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .screenshot:hover {
+      transform: translate(3px, 3px);
+      box-shadow: 3px 3px 0 var(--rw-black);
+    }
+
+    .screenshot img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Video section */
+    .video-section iframe {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border: 4px solid var(--rw-black);
+      box-shadow: 10px 10px 0 var(--rw-black);
+    }
+
+    /* Tech stack badges */
+    .tech-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .tech-badge {
+      background: var(--rw-yellow);
+      border: 3px solid var(--rw-black);
+      padding: 0.5rem 1rem;
+      font-weight: 600;
+      font-size: 0.9rem;
+      box-shadow: 3px 3px 0 var(--rw-black);
+    }
+
+    .tech-badge.primary {
+      background: var(--rw-orange);
+      color: var(--rw-white);
+    }
+
+    /* Feature list */
+    .feature-list {
+      list-style: none;
+      padding: 0;
+      margin-top: 1rem;
+    }
+
+    .feature-list li {
+      padding: 0.75rem 0;
+      border-bottom: 2px solid var(--rw-gray);
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+
+    .feature-list li:last-child {
+      border-bottom: none;
+    }
+
+    .feature-list li::before {
+      content: '';
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      background: var(--rw-orange);
+      border: 2px solid var(--rw-black);
+      flex-shrink: 0;
+      margin-top: 0.35rem;
+    }
+
+    /* Links section */
+    .links-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .link-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--rw-white);
+      border: 4px solid var(--rw-black);
+      padding: 0.75rem 1.5rem;
+      font-weight: 700;
+      font-size: 1rem;
+      text-decoration: none;
+      color: var(--rw-black);
+      box-shadow: 6px 6px 0 var(--rw-black);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    .link-button:hover {
+      transform: translate(3px, 3px);
+      box-shadow: 3px 3px 0 var(--rw-black);
+      background: var(--rw-orange);
+      color: var(--rw-white);
+    }
+
+    .link-button svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--rw-gray);
+      text-align: center;
+      padding: 2rem;
+      border-top: 4px solid var(--rw-black);
+    }
+
+    footer p {
+      color: var(--rw-muted);
+      font-size: 0.9rem;
+    }
+
+    footer a {
+      color: var(--rw-orange);
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* Back button override for neo-brutalist style */
+    .back-to-showcase {
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      z-index: 100;
+      background: var(--rw-white);
+      border: 3px solid var(--rw-black);
+      padding: 0.5rem 1rem;
+      font-weight: 700;
+      font-size: 0.875rem;
+      text-decoration: none;
+      color: var(--rw-black);
+      box-shadow: 4px 4px 0 var(--rw-black);
+      transition: transform 0.15s, box-shadow 0.15s;
+      font-family: 'Space Grotesk', system-ui, sans-serif;
+    }
+
+    .back-to-showcase:hover {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0 var(--rw-black);
+      background: var(--rw-orange);
+      color: var(--rw-white);
+    }
+
+    /* About me photo */
+    .about-photo {
+      float: right;
+      width: 150px;
+      height: 150px;
+      border: 4px solid var(--rw-black);
+      box-shadow: 6px 6px 0 var(--rw-orange);
+      margin-left: 1.5rem;
+      margin-bottom: 1rem;
+      object-fit: cover;
+    }
+
+    @media (max-width: 600px) {
+      .about-photo {
+        float: none;
+        display: block;
+        margin: 0 auto 1.5rem;
+      }
+
+      .hero-header h1 {
+        font-size: 2.5rem;
+      }
+
+      .logo-container {
+        flex-direction: column;
+      }
+
+      .road-banner p {
+        font-size: 1.25rem;
+      }
+    }
+
+    /* Clearfix for floated elements */
+    .clearfix::after {
+      content: '';
+      display: table;
+      clear: both;
+    }
+  </style>
+</head>
+<body>
+  <!-- Back button — links to the main showcase -->
+  <a href="../../" class="back-to-showcase">&larr; Back to Showcase</a>
+
+  <!-- Hero Header -->
+  <header class="hero-header">
+    <div class="hero-content">
+      <div class="logo-container">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 2L2 7l10 5 10-5-10-5z" />
+            <path d="M2 17l10 5 10-5" />
+            <path d="M2 12l10 5 10-5" />
+          </svg>
+        </div>
+        <h1>RoadWatch</h1>
+      </div>
+      <p class="hero-tagline">Driving Toward Safer Roads for Everyone</p>
+
+      <div class="road-banner">
+        <p>AI-Powered Road Hazard Detection</p>
+        <p>Real-Time Analysis &bull; Automated Reporting</p>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- About Me Section -->
+    <section class="clearfix">
+      <h2>About Me</h2>
+      <!-- TODO: Add your photo here -->
+      <img src="YOUR_PHOTO.jpg" alt="Eric Lee" class="about-photo">
+      <p>
+        Hi, I'm Eric Lee, a high school student passionate about using technology to solve real-world problems. 
+        I've been coding for several years and love exploring the intersection of machine learning, 
+        mobile development, and civic technology.
+      </p>
+      <p>
+        When I noticed how many road hazards go unreported in my community, I decided to build something 
+        that could make a difference. That's how RoadWatch was born—a tool that empowers everyday drivers 
+        to contribute to safer roads.
+      </p>
+    </section>
+
+    <!-- App Description Section -->
+    <section>
+      <h2>RoadWatch</h2>
+      <p>
+        RoadWatch is a mobile application that uses advanced machine learning to detect road hazards 
+        in real-time through your dashcam. Our YOLO Ensemble neural networks analyze footage as you drive, 
+        identifying potholes, cracks, debris, animals, malfunctioning traffic lights, and more.
+      </p>
+      <p>
+        Every detection is automatically logged with GPS coordinates and sent to local public works offices, 
+        helping municipalities prioritize repairs based on severity and traffic data. No more waiting for 
+        311 calls—RoadWatch creates a continuous stream of actionable road condition data.
+      </p>
+
+      <h3 style="margin-top: 1.5rem; margin-bottom: 0.75rem; font-weight: 700;">Key Features</h3>
+      <ul class="feature-list">
+        <li>Real-time pothole, crack, debris, and animal detection using YOLO ML models</li>
+        <li>Easy dashcam integration via Bluetooth or affordable Raspberry Pi solution</li>
+        <li>Interactive mapping with all detected hazards</li>
+        <li>Automated formal reports sent directly to Offices of Public Works</li>
+        <li>Smart severity scoring (1.0-10.0) based on traffic data and repair costs</li>
+        <li>Dashboard for municipalities to track and prioritize repairs</li>
+      </ul>
+
+      <h3 style="margin-top: 1.5rem; margin-bottom: 0.75rem; font-weight: 700;">Technologies Used</h3>
+      <div class="tech-stack">
+        <span class="tech-badge primary">YOLO ML</span>
+        <span class="tech-badge primary">Python</span>
+        <span class="tech-badge">Next.js</span>
+        <span class="tech-badge">React Native</span>
+        <span class="tech-badge">TypeScript</span>
+        <span class="tech-badge">TensorFlow</span>
+        <span class="tech-badge">Raspberry Pi</span>
+        <span class="tech-badge">Bluetooth</span>
+      </div>
+    </section>
+
+    <!-- Screenshots Section -->
+    <section>
+      <h2>Screenshots</h2>
+      <p>Here's a look at RoadWatch in action:</p>
+      <div class="screenshot-gallery">
+        <!-- TODO: Add your app screenshots here -->
+        <div class="screenshot">
+          <img src="SCREENSHOT_1.png" alt="RoadWatch Detection Screen">
+        </div>
+        <div class="screenshot">
+          <img src="SCREENSHOT_2.png" alt="RoadWatch Map View">
+        </div>
+        <div class="screenshot">
+          <img src="SCREENSHOT_3.png" alt="RoadWatch Dashboard">
+        </div>
+      </div>
+    </section>
+
+    <!-- Demo Video Section -->
+    <section class="video-section">
+      <h2>Demo Video</h2>
+      <!-- TODO: Replace YOUR_VIDEO_ID with your YouTube video ID -->
+      <iframe
+        src="https://www.youtube.com/embed/YOUR_VIDEO_ID"
+        title="RoadWatch Demo Video"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+      </iframe>
+    </section>
+
+    <!-- Links Section -->
+    <section>
+      <h2>Links</h2>
+      <div class="links-container">
+        <a href="https://github.com/ericpolee/roadwatch" class="link-button">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+          </svg>
+          GitHub
+        </a>
+        <a href="https://roadwatch.app" class="link-button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+          Live App
+        </a>
+        <a href="https://apps.apple.com/app/roadwatch" class="link-button">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+          </svg>
+          App Store
+        </a>
+        <a href="https://play.google.com/store/apps/details?id=app.roadwatch" class="link-button">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.6 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.53,12.9 20.18,13.18L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z"/>
+          </svg>
+          Google Play
+        </a>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <p>Congressional App Challenge &bull; <a href="../../">Back to Showcase</a></p>
+  </footer>
+
+  <!-- Navigation script — enables arrow key navigation. Do NOT remove this. -->
+  <script src="../../assets/js/nav.js" data-root="../../"></script>
+</body>
+</html>
